@@ -15,12 +15,13 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
     - uses: actions/checkout@v4
-    - name: run docker-compose
-      uses: blag/action-docker-compose@latest
-      with:
-            # https://docs.docker.com/compose/reference/overview/
-            cli-args: ‘build -f "acmt_docker_compose.yml" up -d --build’
-
+    - name: Install Docker Compose
+      run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+    - name: sdasd
+      run:  docker-compose build -f "acmt_docker_compose.yml" up -d --build
     - name: Save Image
       run:  docker save -o acmt-django-app.tar acmt-django-app  
             docker save -o mysql.tar mysql:8.0 
