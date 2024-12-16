@@ -1,0 +1,58 @@
+
+name: Docker create & release
+
+on:
+  push:
+    branches: [ "main" ]
+    tags:
+      - '*'
+
+jobs:
+
+  docker-build:
+
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: Build Image
+      run: docker-compose build -f "acmt_docker_compose.yml" up -d --build
+
+    - name: Save Image
+      run:  docker save -o acmt-django-app.tar acmt-django-app  
+            docker save -o mysql.tar mysql:8.0 
+            docker save -o acmt-frontend-app.tar acmt-frontend-app  
+            zip acmt_tool.zip acmt-django-app.tar mysql.tar acmt-frontend-app.tar
+
+    - name: Upload Image
+      uses: actions/upload-artifact@v2
+      with:
+        name: COMAC-ASDT-acmt
+        path: acmt_tool.zip
+      
+
+  docker-release:
+  
+      runs-on: ubuntu-latest
+      if: startsWith(github.ref, 'refs/tags/')
+      needs: docker-build
+  
+      steps:
+        - name: Download Image from build
+          uses: actions/download-artifact@v2
+          with:
+            name: COMAC-ASDT-acmt
+
+        - name: Display structure of downloaded files
+          run: ls -R
+
+        - name: Upload Release
+          uses: softprops/action-gh-release@v1
+          if: startsWith(github.ref, 'refs/tags/')
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            files: |
+              acmt_tool.zip
