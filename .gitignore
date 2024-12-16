@@ -1,0 +1,14 @@
+backend/.VSCodeCounter
+backend/.vene
+backend/application/__pycache__
+backend/conf/__pycache__
+backend/db
+backend/dvadmin/system/fixtures/__pycache__
+backend/dvadmin/system/__pycache__
+backend/dvadmin/system/management/__pycache__
+backend/dvadmin/system/management/commands/__pycache__
+backend/dvadmin/system/migrations/__pycache__
+backend/dvadmin/system/views/__pycache__
+backend/dvadmin/utils/__pycache__
+backend/myenv
+db

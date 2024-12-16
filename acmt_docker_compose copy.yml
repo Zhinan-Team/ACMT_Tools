@@ -1,0 +1,42 @@
+version: '3.8'  # 使用较新的 Docker Compose 版本
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: acmt-django-app  # 描述性名称
+    container_name: acmt_web  # 指定容器名称
+    hostname: web  # 容器内的主机名
+    restart: always  # 自动重启容器
+    command: >
+      sh -c "sleep 10 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"  # 添加启动延迟
+    volumes:
+      - .:/app  # 将当前目录挂载到容器的 /app
+    ports:
+      - "9000:8000"  # 将容器的 8000 端口映射到主机的 8000 端口
+    environment:
+      - MYSQL_DATABASE=django-vue3-admin  # 默认数据库
+      - MYSQL_USER=user1  # 用户名
+      - MYSQL_PASSWORD=G7@xz!2tB$9lQm^5  # 用户密码
+      - MYSQL_HOST=mysql  # 使用服务名
+      - MYSQL_PORT=3306  # MySQL 端口
+
+  mysql:
+    image: mysql:8.0  # 使用稳定的 MySQL 镜像
+    container_name: mysql  # 指定 MySQL 容器名称
+    hostname: mysql  # 容器内的主机名
+    restart: always  # 自动重启容器
+    ports:
+      - "3306:3306"  # 将容器的 3306 端口映射到主机的 3306 端口
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./acmt.sql:/docker-entrypoint-initdb.d/acmt.sql  # 持久化 MySQL 数据库
+    environment:
+      - MYSQL_DATABASE=django-vue3-admin  # 数据库名称
+      - MYSQL_USER=user1  # 数据库用户
+      - MYSQL_PASSWORD=G7@xz!2tB$9lQm^5  # 用户密码
+      - MYSQL_ROOT_PASSWORD=G7@xz!2tB$9lQm^5  # root 用户密码，确保使用强密码
+
+volumes:
+  mysql_data:  # 定义持久化的数据卷（可选）
