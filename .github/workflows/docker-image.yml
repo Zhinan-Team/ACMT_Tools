@@ -18,7 +18,7 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
       - name: sdasd
-        run: docker-compose --file acmt_docker_compose.yml up --build
+        run: docker-compose --file acmt_build_docker_compose.yml up --build
       - name: Save Image
         run: docker save -o acmt-django-app.tar acmt-django-app
           docker save -o mysql.tar mysql:8.0
