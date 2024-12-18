@@ -18,7 +18,7 @@ services:
     environment:
       - MYSQL_DATABASE=django-vue3-admin  # 默认数据库
       - MYSQL_USER=user1  # 用户名
-      - MYSQL_PASSWORD=G7@xz!2tB$9lQm^5  # 用户密码
+      - MYSQL_PASSWORD=G7@xz!2tB9lQm^5  # 用户密码
       - MYSQL_HOST=mysql  # 使用服务名
       - MYSQL_PORT=3306  # MySQL 端口
 
@@ -35,8 +35,8 @@ services:
     environment:
       - MYSQL_DATABASE=django-vue3-admin  # 数据库名称
       - MYSQL_USER=user1  # 数据库用户
-      - MYSQL_PASSWORD=G7@xz!2tB$9lQm^5  # 用户密码
-      - MYSQL_ROOT_PASSWORD=G7@xz!2tB$9lQm^5  # root 用户密码，确保使用强密码
+      - MYSQL_PASSWORD=G7@xz!2tB9lQm^5  # 用户密码
+      - MYSQL_ROOT_PASSWORD=G7@xz!2tB9lQm^5  # root 用户密码，确保使用强密码
 
 volumes:
   mysql_data:  # 定义持久化的数据卷（可选）

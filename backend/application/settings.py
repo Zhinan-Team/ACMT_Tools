@@ -106,8 +106,8 @@ WSGI_APPLICATION = "application.wsgi.application"
 #         "NAME": DATABASE_NAME,
 #         "USER": DATABASE_USER,
 #         "PASSWORD": DATABASE_PASSWORD,
-#         "HOST": os.getenv('MYSQL_HOST', 'mysql'),
-#         # DATABASE_HOST,
+#         # "HOST": os.getenv('MYSQL_HOST', 'mysql'),
+#         "HOST":  DATABASE_HOST,
 #         "PORT": DATABASE_PORT,
 #     }
 # }
@@ -117,11 +117,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('MYSQL_DATABASE', 'django-vue3-admin'),  # 数据库名称
         'USER': os.getenv('MYSQL_USER', 'user1'),  # 数据库用户
-        'PASSWORD': os.getenv('MYSQL_PASSWORD', 'G7@xz!2tB$9lQm^5'),  # 用户密码
+        'PASSWORD': os.getenv('MYSQL_PASSWORD', 'G7@xz!2tB9lQm^5'),  # 用户密码
         'HOST': os.getenv('MYSQL_HOST', 'mysql'),  # 使用 MySQL 服务名称
         'PORT': os.getenv('MYSQL_PORT', '3306'),  # MySQL 端口
     }
 }
+
 AUTH_USER_MODEL = "system.Users"
 USERNAME_FIELD = "username"
 

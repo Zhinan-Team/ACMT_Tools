@@ -1,0 +1,49 @@
+version: '3.8'  # 使用较新的 Docker Compose 版本
+
+services:
+  web:
+    image: acmt-django-app  # 直接使用已加载的镜像
+    container_name: acmt_web  # 指定容器名称
+    hostname: web  # 容器内的主机名
+    restart: always  # 自动重启容器
+    command: >
+      sh -c "sleep 10 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"  # 添加启动延迟
+    volumes:
+      - ./backend:/app  # 将 Django 项目目录挂载到容器的 /app
+    ports:
+      - "9000:8000"  # 将容器的 8000 端口映射到主机的 9000 端口
+    environment:
+      - MYSQL_DATABASE=django-vue3-admin  # 默认数据库
+      - MYSQL_USER=user1  # 用户名
+      - MYSQL_PASSWORD=G7@xz!2tB9lQm^5  # 用户密码
+      - MYSQL_HOST=mysql  # 使用服务名
+      - MYSQL_PORT=3306  # MySQL 端口
+
+  mysql:
+    image: mysql:8.0  # 使用稳定的 MySQL 镜像
+    container_name: mysql  # 指定 MySQL 容器名称
+    hostname: mysql  # 容器内的主机名
+    restart: always  # 自动重启容器
+    ports:
+      - "3306:3306"  # 将容器的 3306 端口映射到主机的 3306 端口
+    volumes:
+      - ./db:/var/lib/mysql  # 持久化 MySQL 数据库
+      - ./acmt.sql:/docker-entrypoint-initdb.d/acmt.sql  # 挂载初始化 SQL 文件
+    environment:
+      - MYSQL_DATABASE=django-vue3-admin  # 数据库名称
+      - MYSQL_USER=user1  # 数据库用户
+      - MYSQL_PASSWORD=G7@xz!2tB9lQm^5  # 用户密码
+      - MYSQL_ROOT_PASSWORD=G7@xz!2tB9lQm^5  # root 用户密码
+
+  frontend:
+    image: acmt-frontend-app  # 直接使用已加载的镜像
+    container_name: acmt_frontend  # 指定前端容器名称
+    ports:
+      - "9527:80"  # 将容器的 80 端口映射到主机的 9527 端口
+    depends_on:
+      - web  # 确保在 web 启动后再启动前端
+    volumes:
+      - ./frontend:/app  # 将前端项目目录挂载到容器的 /app
+
+volumes:
+  mysql_data:  # 定义持久化的数据卷（可选）
