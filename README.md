@@ -9,6 +9,9 @@ ACMT Tools 是一个针对 ACMT 的集成应用系统，包含前端、后端和
 - ACARS Report 及 Parameters、Derived Parameters、Rules、Tasks 等新建、公式编辑、参数配置、报文生成等业务。
 - 用户管理&角色管理，并配置权限控制功能。
 
+![MainPage](frontend/Img/MainPage.jpg)
+![CalculatePage](frontend/Img/CalculatePage.jpg)
+
 ## 技术栈
 
 - **后端**: Django
